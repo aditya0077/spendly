@@ -16,7 +16,7 @@
     </p>
     <div class="hero-actions">
         <a href="{{ url_for('register') }}" class="btn-primary">Create free account</a>
-        <a href="{{ url_for('register') }}" class="btn-primary">See how it works</a>
+        <a href="#" class="btn-primary" id="howModalTrigger">See how it works</a>
     </div>
     <div class="hero-visual">
         <div class="mock-browser">
@@ -95,5 +95,59 @@
         <a href="{{ url_for('register') }}" class="btn-primary">Create free account</a>
     </div>
 </section>
+
+<!-- How-it-works modal -->
+<div class="modal-overlay" id="howModal" aria-hidden="true">
+    <div class="modal-box">
+        <button class="modal-close" id="modalClose" aria-label="Close">&times;</button>
+        <div class="modal-video-wrap">
+            <iframe id="modalVideo"
+                    data-src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+                    src=""
+                    title="How Spendly works"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen></iframe>
+        </div>
+    </div>
+</div>
+
+<script>
+(function () {
+    var overlay  = document.getElementById('howModal');
+    var iframe   = document.getElementById('modalVideo');
+    var closeBtn = document.getElementById('modalClose');
+    var trigger  = document.getElementById('howModalTrigger');
+
+    function openModal() {
+        iframe.src = iframe.dataset.src;
+        overlay.setAttribute('aria-hidden', 'false');
+        overlay.classList.add('is-open');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+        iframe.src = '';
+        overlay.setAttribute('aria-hidden', 'true');
+        overlay.classList.remove('is-open');
+        document.body.style.overflow = '';
+    }
+
+    trigger.addEventListener('click', function (e) {
+        e.preventDefault();
+        openModal();
+    });
+
+    closeBtn.addEventListener('click', closeModal);
+
+    overlay.addEventListener('click', function (e) {
+        if (e.target === overlay) closeModal();
+    });
+
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') closeModal();
+    });
+}());
+</script>
 
 {% endblock %}
